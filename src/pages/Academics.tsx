@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { ChevronDown, Save, FileText } from 'lucide-react';
+import { ChevronDown, Save, FileText, History } from 'lucide-react';
+import { ReportCardModal } from '@/components/academics/ReportCardModal';
+import { StudentHistoryModal } from '@/components/academics/StudentHistoryModal';
 
 interface StudentScore {
   id: string;
@@ -31,6 +33,8 @@ const Academics = () => {
   const [selectedSubject, setSelectedSubject] = useState('Mathematics');
   const [scores, setScores] = useState(mockScores);
   const [focusedCell, setFocusedCell] = useState<{ row: number; col: string } | null>(null);
+  const [reportCardOpen, setReportCardOpen] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
 
   const assessmentColumns = [
     { key: 'hw1', header: 'HW1', max: 10 },
@@ -100,7 +104,11 @@ const Academics = () => {
           <p className="text-sm text-muted-foreground">Gradebook and assessment management</p>
         </div>
         <div className="flex items-center gap-3">
-          <Button variant="outline" className="gap-2">
+          <Button variant="outline" className="gap-2" onClick={() => setHistoryOpen(true)}>
+            <History size={16} />
+            Academic History
+          </Button>
+          <Button variant="outline" className="gap-2" onClick={() => setReportCardOpen(true)}>
             <FileText size={16} />
             Report Cards
           </Button>
@@ -230,6 +238,10 @@ const Academics = () => {
           <span className="ml-auto">Use arrow keys to navigate • Tab to move right</span>
         </div>
       </div>
+
+      {/* Modals */}
+      <ReportCardModal open={reportCardOpen} onOpenChange={setReportCardOpen} />
+      <StudentHistoryModal open={historyOpen} onOpenChange={setHistoryOpen} />
     </div>
   );
 };
